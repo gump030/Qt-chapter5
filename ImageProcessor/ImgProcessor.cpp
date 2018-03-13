@@ -17,13 +17,13 @@ ImageProcessor::ImageProcessor(QWidget *parent)
 {
 	//首先设定标题  
 	setWindowTitle(tr("my word"));
-
+	
 	//创建放图像的label和文本输入的地方,把这个设置为中心部件  
 	showWidget = new ShowWidget(this);    //创建一个对象  
-	setCentralWidget(showWidget);   //把这个设置为中心部件  
+	setCentralWidget(showWidget);   //把这个设置为中心部件
 
-									//排序下拉框的初始化  
-	listLabel = new QLabel(tr("paixu:"));   //排序  
+	//排序下拉框的初始化  
+	listLabel = new QLabel(tr("排序:"));   //排序  
 	listComboBox = new QComboBox;
 	listComboBox->addItem("Standard");      //标准  
 	listComboBox->addItem("QTextListFormat::ListDisc");
@@ -38,17 +38,16 @@ ImageProcessor::ImageProcessor(QWidget *parent)
 	//事件的关联  
 	connect(listComboBox, SIGNAL(activated(int)), this, SLOT(ShowList(int)));   //选择的下拉排序的第几个，然后在相应的显示  
 
-
-																				//  qDebug()<<"11111111111111";  
-																				//创建有关字体的部件  
-																				//在工具栏上嵌入控件  
-																				//设置字体  
-	fontLabel1 = new QLabel(tr("font:"));   //字体标签  
+	//  qDebug()<<"11111111111111";  
+	//创建有关字体的部件  
+	//在工具栏上嵌入控件  
+	//设置字体  
+	fontLabel1 = new QLabel(tr("字体："));   //字体标签  
 	fontComboBox = new QFontComboBox;   //字体选项下拉  
 	fontComboBox->setFontFilters(QFontComboBox::ScalableFonts);   //显示所有的可缩放的字体  
 
-																  //字号  
-	fontLabel2 = new QLabel(tr("size:"));   //字号  
+	//字号  
+	fontLabel2 = new QLabel(tr("字号："));   //字号  
 	sizeComboBox = new QComboBox;
 	QFontDatabase db;   //实现在字号下拉列表框中填充各种不同的字号条目，这个类用于表示当前系统中所有可用的格式信息  
 	foreach(int size, db.standardSizes())   //第二个参数返回可用标准字号的列表  
@@ -59,9 +58,9 @@ ImageProcessor::ImageProcessor(QWidget *parent)
 	//粗体  
 	boldBtn = new QToolButton;
 	boldBtn->setIcon(QIcon("./image/bold.png"));
-	boldBtn->setCheckable(true);    //默认选择  
+	boldBtn->setCheckable(true);    //表示可以选中  
 
-									//斜体  
+	//斜体  
 	italicBtn = new QToolButton;
 	italicBtn->setIcon(QIcon("./image/talic.png"));
 	italicBtn->setCheckable(true);
@@ -78,13 +77,13 @@ ImageProcessor::ImageProcessor(QWidget *parent)
 
 
 	createActions();      //创建动作  
-						  //  qDebug()<<"222222222222222222";  
+	//  qDebug()<<"222222222222222222";  
 	createMenus();    //创建菜单    
-					  //  qDebug()<<"3333333333333333";  
+	//  qDebug()<<"3333333333333333";  
 	createToolBars();   //工具  
 
-						//  qDebug()<<"......";  
-						//相应的槽函数的连接  
+	//  qDebug()<<"......";  
+	//相应的槽函数的连接  
 	connect(fontComboBox, SIGNAL(activated(QString)), this, SLOT(ShowFontComboBox(QString)));
 	connect(sizeComboBox, SIGNAL(activated(QString)), this, SLOT(ShowSizeSpinBox(QString)));
 	connect(boldBtn, SIGNAL(clicked()), this, SLOT(ShowBoldBtn()));
@@ -98,7 +97,7 @@ ImageProcessor::ImageProcessor(QWidget *parent)
 	connect(showWidget->text, SIGNAL(cursorPositionChanged()), this, SLOT(ShowCursorPositionChanged()));
 
 	//如果图像加载成功  
-	if (img.load("./image/226.png"))
+	if (img.load("./image/227.png"))
 	{
 		//在imageLabel中放图像  
 		showWidget->imageLabel->setPixmap(QPixmap::fromImage(img));
@@ -110,7 +109,6 @@ ImageProcessor::ImageProcessor(QWidget *parent)
 void ImageProcessor::ShowList(int index)
 {
 	QTextCursor cursor = showWidget->text->textCursor();
-
 	if (index != 0)
 	{
 		QTextListFormat::Style style = QTextListFormat::ListDisc;   //默认排序是这个  
@@ -135,7 +133,7 @@ void ImageProcessor::ShowList(int index)
 		case 8:
 			style = QTextListFormat::ListUpperRoman; break;
 		}
-
+		
 		cursor.beginEditBlock();    //开始设置缩进值  
 									//这个显示格式化的信息  
 		QTextBlockFormat blockFmt = cursor.blockFormat();   //后面这个返回光标选定的段落格式  
@@ -199,7 +197,7 @@ void ImageProcessor::createToolBars()
 	listToolBar->addSeparator();
 	listToolBar->addActions(actGrp->actions());   //把整个组都添加进去  
 
-												  //文件工具条  
+	//文件工具条  
 	fileTool = addToolBar("File");
 	fileTool->addAction(openFileAction);
 	fileTool->addAction(NewFileAction);
@@ -210,12 +208,12 @@ void ImageProcessor::createToolBars()
 	zoomTool = addToolBar("Edit");
 	zoomTool->addAction(copyAction);
 	zoomTool->addAction(cutAction);
-	zoomTool->addAction(pasteAction);
-	//  zoomTool->addAction(aboutAction);  
+	zoomTool->addAction(pasteAction); 
 	zoomTool->addSeparator(); //分隔符  
 	zoomTool->addAction(zoomInAction);
 	zoomTool->addAction(zoomOutAction);
 
+	this->addToolBarBreak(Qt::TopToolBarArea); //工具栏换行
 	//旋转工具  
 	rotateTool = addToolBar("rotate");
 	rotateTool->addAction(rotate90Action);
@@ -227,7 +225,8 @@ void ImageProcessor::createToolBars()
 	doToolBar->addAction(undoAction);
 	doToolBar->addAction(redoAction);
 
-	//文字的工具栏  
+	//文字的工具栏
+	
 	fontToolBar = addToolBar("Font");
 	fontToolBar->addWidget(fontLabel1);   //字体  
 	fontToolBar->addWidget(fontComboBox);     //字体下拉框  
@@ -373,102 +372,100 @@ void ImageProcessor::createActions()
 	connect(actGrp, SIGNAL(triggered(QAction*)), this, SLOT(ShowAlignment(QAction*)));    //接受选择的action然后显示相应的结果  
 
 
-																						  //打开动作  
-																						  //  qDebug()<<"11111111111111";  
-	openFileAction = new QAction(QIcon("./image/open.png"), tr("open"), this);    //设置图片，名字  
+	//打开动作  
+	//qDebug()<<"11111111111111";  
+	openFileAction = new QAction(QIcon("./image/open.png"), tr("打开"), this);    //设置图片，名字  
 	openFileAction->setShortcut(tr("Ctrl+O"));    //设置快捷键  
-	openFileAction->setStatusTip(tr("open a file"));    //设置提示  
-														//  qDebug()<<"222222222222222222";  
-														//  connect(NewFileAction, SIGNAL(triggered()), this, SLOT(ShowNewFile()));   //连接上相应的槽  
+	openFileAction->setStatusTip(tr("打开一个文件"));    //设置提示  
+	//qDebug()<<"222222222222222222";  
 	connect(openFileAction, SIGNAL(triggered()), this, SLOT(ShowOpenFile()));
 
 	//新建动作  
-	NewFileAction = new QAction(QIcon("./image/new.png"), tr("new"), this);    //设置图片，名字  
+	NewFileAction = new QAction(QIcon("./image/new.png"), tr("新建"), this);    //设置图片，名字  
 	NewFileAction->setShortcut(tr("Ctrl+N"));    //设置快捷键  
-	NewFileAction->setStatusTip(tr("new a file"));    //设置提示  
+	NewFileAction->setStatusTip(tr("新建一个文件"));    //设置提示  
 	connect(NewFileAction, SIGNAL(triggered()), this, SLOT(ShowNewFile()));   //连接上相应的槽  
 
-																			  //退出动作  
-	exitAction = new QAction(tr("out"), this);    //设置图片，名字  
+	//退出动作  
+	exitAction = new QAction(QIcon("./image/new.png"), tr("退出"), this);    //设置图片，名字  
 	exitAction->setShortcut(tr("Ctrl+Q"));    //设置快捷键  
-	exitAction->setStatusTip(tr("close"));    //设置提示  
+	exitAction->setStatusTip(tr("退出程序"));    //设置提示  
 	connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
 	//复制  
-	copyAction = new QAction(QIcon("./image/copy.png"), tr("out"), this);    //设置图片，名字  
+	copyAction = new QAction(QIcon("./image/copy.png"), tr("复制"), this);    //设置图片，名字  
 	copyAction->setShortcut(tr("Ctrl+C"));    //设置快捷键  
-	copyAction->setStatusTip(tr("copy file"));    //设置提示  
+	copyAction->setStatusTip(tr("复制文件"));    //设置提示  
 	connect(copyAction, SIGNAL(triggered()), showWidget->text, SLOT(copy()));
 
 	//剪切  
-	cutAction = new QAction(QIcon("./image/cut.png"), tr("cut"), this);    //设置图片，名字  
+	cutAction = new QAction(QIcon("./image/cut.png"), tr("剪切"), this);    //设置图片，名字  
 	cutAction->setShortcut(tr("Ctrl+X"));    //设置快捷键  
-	cutAction->setStatusTip(tr("cut file"));    //设置提示  
-	connect(copyAction, SIGNAL(triggered()), showWidget->text, SLOT(cut()));
+	cutAction->setStatusTip(tr("剪切文件"));    //设置提示  
+	connect(cutAction, SIGNAL(triggered()), showWidget->text, SLOT(cut()));
 
 	//粘贴  
-	pasteAction = new QAction(QIcon("./image/paste.png"), tr("paste"), this);    //设置图片，名字  
+	pasteAction = new QAction(QIcon("./image/paste.png"), tr("粘贴"), this);    //设置图片，名字  
 	pasteAction->setShortcut(tr("Ctrl+V"));    //设置快捷键  
-	pasteAction->setStatusTip(tr("paste file"));    //设置提示  
-	connect(copyAction, SIGNAL(triggered()), showWidget->text, SLOT(paste()));
+	pasteAction->setStatusTip(tr("粘贴文件"));    //设置提示  
+	connect(pasteAction, SIGNAL(triggered()), showWidget->text, SLOT(paste()));
 
 	//关于  
-	//  QApplication *app;  
-	aboutAction = new QAction(tr("about"), this);
+	//QApplication *app;  
+	aboutAction = new QAction(tr("关于"), this);
 	connect(aboutAction, SIGNAL(triggered()), this, SLOT(QApplication::aboutQt()));
 
 	//打印文本  
-	PrintTextAction = new QAction(QIcon("./image/printText.png"), tr("printtext"), this);
-	PrintTextAction->setStatusTip(tr("print a text"));
+	PrintTextAction = new QAction(QIcon("./image/printText.png"), tr("打印文本"), this);
+	PrintTextAction->setStatusTip(tr("打印一个文本"));
 	connect(PrintTextAction, SIGNAL(triggered()), this, SLOT(ShowPrintText()));   //连接相应的动作  
 
-																				  //打印图像  
-	PrintImageAction = new QAction(QIcon("./image/printImage.png"), tr("printImage"), this);
-	PrintImageAction->setStatusTip(tr("print a image"));
+	//打印图像  
+	PrintImageAction = new QAction(QIcon("./image/printImage.png"), tr("打印图片"), this);
+	PrintImageAction->setStatusTip(tr("打印一张图片"));
 	connect(PrintImageAction, SIGNAL(triggered()), this, SLOT(ShowPrintImage()));
 
 	//放大图像  
-	zoomInAction = new QAction(QIcon("./image/zoomin.png"), tr("get big"), this);
-	zoomInAction->setStatusTip(tr("get big image"));
+	zoomInAction = new QAction(QIcon("./image/zoomin.png"), tr("放大"), this);
+	zoomInAction->setStatusTip(tr("放大图片"));
 	connect(zoomInAction, SIGNAL(triggered()), this, SLOT(ShowZoomIn())); //进行图片放大  
 
-																		  //缩小  
-	zoomOutAction = new QAction(QIcon("./image/zoomout.png"), tr("get small"), this);
-	zoomOutAction->setStatusTip(tr("get small image"));
+	//缩小  
+	zoomOutAction = new QAction(QIcon("./image/zoomout.png"), tr("缩小"), this);
+	zoomOutAction->setStatusTip(tr("缩小图片"));
 	connect(zoomOutAction, SIGNAL(triggered()), this, SLOT(ShowZoomOut())); //进行图片放小  
 
-
-																			//实现图片的选择动作  
-																			//旋转90°  
-	rotate90Action = new QAction(QIcon("./image/Rotate90.png"), tr("get rotate90"), this);
+	//实现图片的选择动作  
+	//旋转90°  
+	rotate90Action = new QAction(QIcon("./image/Rotate90.png"), tr("旋转90"), this);
 	rotate90Action->setStatusTip(tr("get rotate90 image"));
 	connect(rotate90Action, SIGNAL(triggered()), this, SLOT(ShowRotate90()));
 	//180°  
-	rotate180Action = new QAction(QIcon("./image/Rotate180.png"), tr("get rotate180"), this);
+	rotate180Action = new QAction(QIcon("./image/Rotate180.png"), tr("旋转180"), this);
 	rotate180Action->setStatusTip(tr("get rotate180 image"));
 	connect(rotate180Action, SIGNAL(triggered()), this, SLOT(ShowRotate180()));
 	//270°  
-	rotate270Action = new QAction(QIcon("./image/Rotate270.png"), tr("get rotate270"), this);
+	rotate270Action = new QAction(QIcon("./image/Rotate270.png"), tr("旋转270"), this);
 	rotate270Action->setStatusTip(tr("get rotate270 image"));
 	connect(rotate270Action, SIGNAL(triggered()), this, SLOT(ShowRotate270()));
 
 
 	//实现图像镜像的动作  
 	//纵向  
-	mirrorVerticalAction = new QAction(QIcon("./image/mirrorVertical.png"), tr("mirrorVertical"), this);
+	mirrorVerticalAction = new QAction(QIcon("./image/mirrorVertical.png"), tr("纵向镜像"), this);
 	mirrorVerticalAction->setStatusTip(tr("mirrorVertical the image"));
 	connect(mirrorVerticalAction, SIGNAL(triggered()), this, SLOT(ShowMirrorVertical()));
 	//横向  
-	mirrorHorizontalAction = new QAction(QIcon("./image/mirrorHorizontal.png"), tr("mirrorHorizontal"), this);
+	mirrorHorizontalAction = new QAction(QIcon("./image/mirrorHorizontal.png"), tr("横向镜像"), this);
 	mirrorHorizontalAction->setStatusTip(tr("mirrorHorizontal the image"));
 	connect(mirrorHorizontalAction, SIGNAL(triggered()), this, SLOT(ShowMirrorHorizontal()));
 
 	//实现撤销和恢复的动作  
 	//撤销和恢复  
-	undoAction = new QAction(QIcon("./image/undo.png"), "undo", this);    //撤销  
+	undoAction = new QAction(QIcon("./image/undo.png"),tr("undo"), this);    //撤销  
 	connect(undoAction, SIGNAL(triggered()), showWidget->text, SLOT(undo()));
 
-	redoAction = new QAction(QIcon("./image/redo.png"), "redo", this);    //重做  
+	redoAction = new QAction(QIcon("./image/redo.png"),tr("redo"), this);    //重做  
 	connect(undoAction, SIGNAL(triggered()), showWidget->text, SLOT(redo()));
 
 }

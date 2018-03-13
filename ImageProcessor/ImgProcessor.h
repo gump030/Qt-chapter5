@@ -1,5 +1,5 @@
 #pragma once
-
+#pragma execution_character_set("utf-8")
 #include <QtWidgets/QMainWindow>
 #include <QImage>  
 #include <QLabel>  
@@ -38,7 +38,7 @@ private:
 	QAction *justifyAction;     //两端对齐  
 	QToolBar *listToolBar;    //存放排序工具的工具栏  
 
-							  //文字工具栏，实现对文字的编辑功能  
+	//文字工具栏，实现对文字的编辑功能  
 	QLabel *fontLabel1;   //标签，字体  
 	QFontComboBox *fontComboBox;    //字体的选择下拉  
 	QLabel *fontLabel2;   //字号  
@@ -47,8 +47,7 @@ private:
 	QToolButton *italicBtn;   //斜体  
 	QToolButton *underlineBtn;    //下划线  
 	QToolButton *colorBtn;    //字体颜色选择  
-
-							  //添加一个存放这些字体处理工具的工具栏  
+	//添加一个存放这些字体处理工具的工具栏  
 	QToolBar *fontToolBar;
 
 	//各项菜单栏  
@@ -61,7 +60,7 @@ private:
 	QString fileName;     //文件名  
 	ShowWidget *showWidget;     //显示流  
 
-								//文件菜单项  
+	//文件菜单项  
 	QAction *openFileAction;
 	QAction *NewFileAction;
 	QAction *PrintTextAction;
@@ -84,8 +83,7 @@ private:
 	//镜像菜单项  
 	QAction *mirrorVerticalAction;
 	QAction *mirrorHorizontalAction;
-
-
+	//放大缩小
 	QAction *undoAction;
 	QAction *redoAction;
 
@@ -97,12 +95,11 @@ private:
 	QToolBar *doToolBar;
 
 
-	protected slots:    //添加函数槽  
+protected slots:    //添加函数槽  
 	void ShowList(int);   //显示排序列表  
 	void ShowAlignment(QAction *act);   //展示不同的排序结果  
 	void ShowCursorPositionChanged();   //光标位置改变？？？  
-
-										//-------------------------------------------------------------------------------  
+	//-------------------------------------------------------------------------------  
 	void ShowNewFile();   //新建一个新的文件  
 	void ShowOpenFile();    //打开文件  
 	void ShowPrintText();   //打印功能的实现  
@@ -114,8 +111,8 @@ private:
 	void ShowRotate270();   //270度  
 	void ShowMirrorVertical();    //水平镜像  
 	void ShowMirrorHorizontal();    //垂直镜像  
-									//-------------------------------------------------------------------------------  
-									//添加文字处理的相应槽函数  
+	//-------------------------------------------------------------------------------  
+	//添加文字处理的相应槽函数  
 	void ShowFontComboBox(QString comboStr);    //显示字体的改变  
 	void ShowSizeSpinBox(QString spinValue);    //字号的改变  
 	void ShowBoldBtn();   //加粗  
@@ -123,5 +120,5 @@ private:
 	void ShowUnderlineBtn();      //下划线  
 	void ShowColorBtn();      //颜色的改变  
 	void ShowCurrentFormatChanged(const QTextCharFormat &fmt);    //设置字符格式  
-																  //当光标所在的字符格式改变的时候，调用这个函数，这个函数根据新的格式将工具栏上的控件显示更新  
+	//当光标所在的字符格式改变的时候，调用这个函数，这个函数根据新的格式将工具栏上的控件显示更新  
 };
