@@ -133,7 +133,7 @@ void ImageProcessor::ShowList(int index)
 		case 8:
 			style = QTextListFormat::ListUpperRoman; break;
 		}
-		
+
 		cursor.beginEditBlock();    //开始设置缩进值  
 									//这个显示格式化的信息  
 		QTextBlockFormat blockFmt = cursor.blockFormat();   //后面这个返回光标选定的段落格式  
@@ -150,6 +150,9 @@ void ImageProcessor::ShowList(int index)
 			cursor.setBlockFormat(blockFmt);      //设定实现  
 		}
 		listFmt.setStyle(style);    //设定格式  
+		
+		cursor.createList(listFmt);//创建格式应用于文本框
+
 		cursor.endEditBlock();    //结束设置  
 	}
 	else
